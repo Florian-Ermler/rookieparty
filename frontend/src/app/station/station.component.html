@@ -1,0 +1,18 @@
+<table class="w-10/12 mx-auto my-10 table table-auto border-collapse">
+  <thead class="w-full">
+    <tr>
+      <th class="text-left">Name</th>
+      <th class="text-left">Punkte</th>
+      <th class="text-left">Status</th>
+    </tr>
+  </thead>
+  <tbody class="w-full">
+    <tr *ngFor="let station of stations" class="border pl-8">
+      <td *ngFor="let prop of station | keyvalue" class="border text-left p-4">
+        {{ prop.value }}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- <zxing-scanner></zxing-scanner> -->

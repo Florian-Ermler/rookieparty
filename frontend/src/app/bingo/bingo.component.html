@@ -1,0 +1,28 @@
+<div
+  class="mx-10 mt-20 mb-8 grid grid-rows-5 grid-cols-5 grid-flow-row gap-2 justify-center items-center"
+>
+  <div
+    *ngFor="let field of bingoFields; let i = index"
+    (click)="selectQuestion(field)"
+    [class]="userAnswers[i] != 'no answer' ? style2 : style1"
+    [class]="selectedIndex == i ? style3 : style1"
+    [class]="getStyle(i)"
+  >
+    {{ field.number }}
+  </div>
+</div>
+<div class="flex flex-col justify-center items-center">
+  <p class="w-11/12 mb-4 font-bold text-xl text-center">{{ questionText }}</p>
+  <input
+    type="text"
+    [(ngModel)]="questionAnswer"
+    (keyup.enter)="updateAnswer()"
+    class="w-11/12 h-10 font-bolds mb-2 border caret-orange-500 pl-1"
+  />
+  <button
+    (click)="updateAnswer()"
+    class="w-5/12 h-12 font-bold p-1 bg-green-500 border rounded"
+  >
+    Absenden
+  </button>
+</div>

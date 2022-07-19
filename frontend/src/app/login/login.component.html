@@ -1,0 +1,29 @@
+<main class="w-screen h-full flex flex-col justify-center items-center">
+  <p class="mb-5 flex flex-col justify-center items-center font-bold">
+    <span class="text-3xl">
+      <span>Rookie</span> <span class="text-orange-500">party</span>
+    </span>
+    <span class="text-xl">Login</span>
+  </p>
+  <div class="flex flex-col justify-center items-center mb-3 space-y-2">
+    <input
+      type="text"
+      id="username"
+      name="username"
+      placeholder="Nutzername"
+      [(ngModel)]="username"
+      onkeydown="return /[a-z, ]/i.test(event.key)"
+      (keyup.enter)="login()"
+      class="h-8 border border-purple-500"
+    />
+    <a
+      (click)="login()"
+      class="w-full text-center border rounded bg-orange-500 p-1"
+      >Anmelden</a
+    >
+  </div>
+  <p>
+    Noch nicht registriert?
+    <a routerLink="/register" class="text-blue-500">Registrierung!</a>
+  </p>
+</main>
