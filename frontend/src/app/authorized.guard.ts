@@ -14,7 +14,7 @@ import { UserData, UserState } from './store/app.store';
   providedIn: 'root',
 })
 export class AuthorizedGuard implements CanActivate, CanActivateChild {
-  @Select(UserState.getUser) user$!: Observable<UserData>;
+  @Select(UserState.getUser) private user$!: Observable<UserData>;
   private user: UserData = { id: '', username: '' };
 
   canActivate(

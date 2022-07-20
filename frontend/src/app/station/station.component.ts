@@ -1,26 +1,26 @@
 import { Component, OnInit } from '@angular/core';
+import { StationsService } from '../stations.service';
 
 @Component({
   selector: 'app-station',
   templateUrl: './station.component.html',
 })
 export class StationComponent implements OnInit {
-  stations: stationIF[];
+  stations: [];
 
-  constructor() {
-    this.stations = [
-      { name: 'mario kart', points: 0, status: 'nicht abgeschlossen' },
-      { name: 'beerpon', points: 0, status: 'nicht abgeschlossen' },
-      { name: 'cornhole', points: 0, status: 'nicht abgeschlossen' },
-      { name: 'spikeball', points: 0, status: 'nicht abgeschlossen' },
-    ];
+  constructor(private _service: StationsService) {
+    this.stations = [];
   }
 
-  ngOnInit(): void {}
-}
+  async updateStation(
+    index: number,
+    station: { name: string; solved: boolean }
+  ) {
+    this._service.updateStation(index, station);
+  }
 
-interface stationIF {
-  name: string;
-  points: number;
-  status: string;
+  async ngOnInit() {
+    this.stations = await this._service.getStations();
+    console.log(this.stations);
+  }
 }

@@ -9,7 +9,7 @@ import { UserData, UserState } from './store/app.store';
   providedIn: 'root',
 })
 export class BingoService {
-  @Select(UserState.getUser) user$!: Observable<UserData>;
+  @Select(UserState.getUser) private user$!: Observable<UserData>;
   private user: UserData = { id: '', username: '' };
 
   constructor(private http: HttpClient) {
