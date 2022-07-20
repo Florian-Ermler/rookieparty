@@ -3,16 +3,20 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   CanActivateChild,
-  Router,
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
+import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { UserData, UserState } from './store/app.store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthorizedGuard implements CanActivate, CanActivateChild {
+  @Select(UserState.getUser) user$!: Observable<UserData>;
+  private user: UserData = { id: '', username: '' };
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -21,9 +25,16 @@ export class AuthorizedGuard implements CanActivate, CanActivateChild {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (localStorage.getItem('rookie_username')) {
+    this.user$.subscribe((u) => {
+      this.user = u;
+    });
+    console.log(this.user);
+
+    if (this.user.username.trim() != '' && this.user.id.trim() != '') {
+      console.log('t');
       return true;
     } else {
+      console.log('f');
       return false;
     }
   }

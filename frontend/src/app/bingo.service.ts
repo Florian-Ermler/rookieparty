@@ -1,22 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { Select } from '@ngxs/store';
+import { UserData, UserState } from './store/app.store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BingoService {
-  private username: string | null;
-  private userId: string | null;
+  @Select(UserState.getUser) user$!: Observable<UserData>;
+  private user: UserData = { id: '', username: '' };
 
   constructor(private http: HttpClient) {
-    this.username = localStorage.getItem('rookie_username');
-    this.userId = localStorage.getItem('rookie_id');
+    this.user$.subscribe((u) => {
+      this.user = u;
+    });
   }
 
   async getBingo() {
     const response: any = await firstValueFrom(
-      this.http.get('http://localhost:8055/items/bingo?sort=number')
+      this.http.get(`${environment.directusUrl}/items/bingo?sort=number`)
     );
     const matrix: string[][] = [[], [], [], [], []];
     let counter = 0;
@@ -30,11 +34,12 @@ export class BingoService {
   }
 
   async getUserAnswers() {
-    this.username = localStorage.getItem('rookie_username');
-    if (this.username) {
+    if (this.user.username.trim() != '') {
       const response: any = await firstValueFrom(
         this.http.get(
-          `http://localhost:8055/items/user?filter[name][_eq]=${this.username}`
+          `${
+            environment.directusUrl
+          }/items/user?filter[name][_eq]=${this.user.username.trim()}`
         )
       );
       return response.data[0].question_answers;
@@ -44,19 +49,24 @@ export class BingoService {
   async getUserStations() {
     const response: any = await firstValueFrom(
       this.http.get(
-        `http://localhost:8055/items/user?filter[name][_eq]=${this.username}&fields=*,solved_stations.station_id`
+        `${
+          environment.directusUrl
+        }/items/user?filter[name][_eq]=${this.user.username.trim()}&fields=*,solved_stations.station_id`
       )
     );
   }
 
   async updateAnswer(question_number: number[], answer: string) {
-    if (this.userId) {
+    if (this.user.id.trim()) {
       const answerArray: string[][] = await this.getUserAnswers();
       answerArray[question_number[0]][question_number[1]] = answer;
       const response = await firstValueFrom(
-        this.http.patch(`http://localhost:8055/items/user/${this.userId}`, {
-          question_answers: answerArray,
-        })
+        this.http.patch(
+          `${environment.directusUrl}/items/user/${this.user.id.trim()}`,
+          {
+            question_answers: answerArray,
+          }
+        )
       );
     }
   }

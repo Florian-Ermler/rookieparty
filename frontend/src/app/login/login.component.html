@@ -19,7 +19,7 @@
     <button
       (click)="login()"
       (tap)="login()"
-      [disabled]="username.trim() == ''"
+      [disabled]="username && username.trim() == ''"
       class="w-full text-center border rounded bg-orange-500 p-1"
     >
       Anmelden
