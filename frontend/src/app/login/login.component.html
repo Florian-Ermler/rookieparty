@@ -14,13 +14,16 @@
       [(ngModel)]="username"
       onkeydown="return /[a-z, ]/i.test(event.key)"
       (keyup.enter)="login()"
-      class="h-8 border border-purple-500"
+      class="h-8 border border-orange-500 rounded pl-1"
     />
-    <a
+    <button
       (click)="login()"
+      (tap)="login()"
+      [disabled]="username.trim() == ''"
       class="w-full text-center border rounded bg-orange-500 p-1"
-      >Anmelden</a
     >
+      Anmelden
+    </button>
   </div>
   <p>
     Noch nicht registriert?
