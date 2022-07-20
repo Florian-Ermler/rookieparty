@@ -6,59 +6,51 @@ import { BingoService } from '../bingo.service';
   templateUrl: './bingo.component.html',
 })
 export class BingoComponent implements OnInit {
-  public bingoFields: any;
+  public bingoField: any;
   public questionText: string;
-  public selectedIndex: number | undefined;
+  public selectedCoords: number[] | undefined;
   public questionAnswer: string | undefined;
-  public style1: string;
-  public style2: string;
-  public style3: string;
-  public userAnswers: any;
+  public bingoFieldStyle: string;
+  public selectedFieldStyle: string;
+  public answerdFieldStyle: string;
+  public userAnswers: string[][] | undefined;
 
   constructor(private _service: BingoService) {
-    this.bingoFields = [];
+    this.bingoField = [];
+    this.bingoFieldStyle =
+      'w-1/5 p-5 text-center border cursor-pointer transition duration-500 hover:bg-orange-500';
+    this.answerdFieldStyle = this.bingoFieldStyle + ' bg-green-500';
+    this.selectedFieldStyle = this.bingoFieldStyle + ' bg-orange-500';
     this.questionText = 'Wähle ein Feld aus.';
-    this.selectedIndex = undefined;
+    this.selectedCoords = undefined;
     this.questionAnswer = undefined;
-    this.userAnswers = {};
-    this.style1 =
-      'p-5 text-center border cursor-pointer transition duration-500 hover:bg-purple-500';
-    this.style2 =
-      'p-5 bg-green-500 text-center border cursor-pointer transition duration-500 hover:bg-purple-500';
-    this.style3 = 'bg-orange-500';
+    this.userAnswers = undefined;
   }
 
-  selectQuestion(field: any) {
-    this.questionText = field.question;
-    this.selectedIndex = field.number - 1;
+  selectQuestion(y: number, x: number) {
+    this.questionText = this.bingoField[y][x].question;
+    this.selectedCoords = [y, x];
   }
 
-  updateAnswer() {
+  async updateAnswer() {
     if (
-      this.selectedIndex != undefined &&
+      this.selectedCoords != undefined &&
       this.questionAnswer != undefined &&
       this.questionAnswer !== ''
     ) {
-      this._service.updateAnswer(this.selectedIndex, this.questionAnswer);
-    }
-  }
+      await this._service.updateAnswer(
+        this.selectedCoords,
+        this.questionAnswer
+      );
+      this.userAnswers = await this._service.getUserAnswers();
+      console.log(this.userAnswers);
 
-  getStyle(index: number) {
-    let style =
-      'p-5 text-center border cursor-pointer transition duration-500 hover:bg-purple-500';
-    if (this.userAnswers[index] != 'no answer') {
-      style =
-        'p-5 bg-green-500 text-center border cursor-pointer transition duration-500 md:hover:bg-purple-500';
+      this.questionAnswer = '';
     }
-    if (this.selectedIndex == index) {
-      style =
-        'p-5 bg-orange-500 text-center border cursor-pointer transition duration-500 md:hover:bg-purple-500';
-    }
-    return style;
   }
 
   async ngOnInit() {
-    this.bingoFields = await this._service.getBingo();
+    this.bingoField = await this._service.getBingo();
     this.userAnswers = await this._service.getUserAnswers();
   }
 }

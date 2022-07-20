@@ -8,19 +8,25 @@ import { firstValueFrom } from 'rxjs';
 export class BingoService {
   private username: string | null;
   private userId: string | null;
-  private returnVal: {};
 
   constructor(private http: HttpClient) {
     this.username = localStorage.getItem('rookie_username');
     this.userId = localStorage.getItem('rookie_id');
-    this.returnVal = {};
   }
 
   async getBingo() {
     const response: any = await firstValueFrom(
       this.http.get('http://localhost:8055/items/bingo?sort=number')
     );
-    return response.data;
+    const matrix: string[][] = [[], [], [], [], []];
+    let counter = 0;
+    for (let y = 0; y < 5; y++) {
+      for (let x = 0; x < 5; x++) {
+        matrix[y][x] = response.data[counter];
+        counter++;
+      }
+    }
+    return matrix;
   }
 
   async getUserAnswers() {
@@ -31,16 +37,8 @@ export class BingoService {
           `http://localhost:8055/items/user?filter[name][_eq]=${this.username}`
         )
       );
-
-      this.returnVal = Object.keys(response.data[0])
-        .filter((key) => {
-          return key.includes('answer_question');
-        })
-        .map((key) => {
-          return response.data[0][key];
-        });
+      return response.data[0].question_answers;
     }
-    return this.returnVal;
   }
 
   async getUserStations() {
@@ -51,14 +49,15 @@ export class BingoService {
     );
   }
 
-  async updateAnswer(question_number: number, answer: string) {
+  async updateAnswer(question_number: number[], answer: string) {
     if (this.userId) {
+      const answerArray: string[][] = await this.getUserAnswers();
+      answerArray[question_number[0]][question_number[1]] = answer;
       const response = await firstValueFrom(
         this.http.patch(`http://localhost:8055/items/user/${this.userId}`, {
-          [`answer_question_${question_number + 1}`]: answer,
+          question_answers: answerArray,
         })
       );
-      await this.getUserAnswers();
     }
   }
 }

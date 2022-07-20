@@ -1,14 +1,20 @@
-<div
-  class="mx-10 mt-20 mb-8 grid grid-rows-5 grid-cols-5 grid-flow-row gap-2 justify-center items-center"
->
-  <div
-    *ngFor="let field of bingoFields; let i = index"
-    (click)="selectQuestion(field)"
-    [class]="userAnswers[i] != 'no answer' ? style2 : style1"
-    [class]="selectedIndex == i ? style3 : style1"
-    [class]="getStyle(i)"
-  >
-    {{ field.number }}
+<div class="mx-10 mt-20 mb-8">
+  <div *ngFor="let row of bingoField; let y = index" class="flex flex-row">
+    <div
+      *ngFor="let field of row; let x = index"
+      (click)="selectQuestion(y, x)"
+      [class]="
+        selectedCoords != undefined &&
+        selectedCoords[0] == y &&
+        selectedCoords[1] == x
+          ? selectedFieldStyle
+          : userAnswers != undefined && userAnswers[y][x].trim() != ''
+          ? answerdFieldStyle
+          : bingoFieldStyle
+      "
+    >
+      {{ field.number }}
+    </div>
   </div>
 </div>
 <div class="flex flex-col justify-center items-center">
