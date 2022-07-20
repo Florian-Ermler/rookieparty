@@ -43,8 +43,6 @@ export class BingoComponent implements OnInit {
         this.questionAnswer
       );
       this.userAnswers = await this._service.getUserAnswers();
-      console.log(this.userAnswers);
-
       this.questionAnswer = '';
     }
   }

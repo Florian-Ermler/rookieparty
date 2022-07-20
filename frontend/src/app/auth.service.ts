@@ -36,7 +36,6 @@ export class AuthService {
       )
     );
     this._store.dispatch(new SetUser({ id: response.data[0].id, username }));
-    console.log(this._store.select((state) => state.user.username));
   }
 
   async register(username: string) {

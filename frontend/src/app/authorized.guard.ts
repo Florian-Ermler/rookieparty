@@ -28,13 +28,9 @@ export class AuthorizedGuard implements CanActivate, CanActivateChild {
     this.user$.subscribe((u) => {
       this.user = u;
     });
-    console.log(this.user);
-
     if (this.user.username.trim() != '' && this.user.id.trim() != '') {
-      console.log('t');
       return true;
     } else {
-      console.log('f');
       return false;
     }
   }

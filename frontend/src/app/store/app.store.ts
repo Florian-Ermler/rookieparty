@@ -32,6 +32,5 @@ export class UserState {
   @Action(SetUser)
   setUser(ctx: StateContext<UserDataModel>, { payload }: SetUser) {
     ctx.patchState({ user: payload });
-    console.log(ctx.getState());
   }
 }
