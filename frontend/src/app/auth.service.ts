@@ -38,7 +38,7 @@ interface User {
 @Injectable({
   providedIn: 'root',
 })
-export class UsernameService {
+export class AuthService {
   constructor(private http: HttpClient) {}
 
   private usernameUsed = false;
@@ -58,7 +58,7 @@ export class UsernameService {
   }
 
   async login(username: string) {
-    const response: any = await await firstValueFrom(
+    const response: any = await firstValueFrom(
       this.http.get(
         `http://localhost:8055/items/user?filter[name][_eq]=${username}`
       )
