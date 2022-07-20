@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UsernameService } from '../auth.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
 })
 export class RegisterComponent implements OnInit {
-  constructor(private _router: Router, private _service: UsernameService) {}
+  constructor(private _router: Router, private _service: AuthService) {}
 
   username: string = '';
 
