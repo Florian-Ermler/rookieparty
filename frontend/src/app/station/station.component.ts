@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StationsService } from '../stations.service';
+import { NavHeaderComponent } from '../nav-header/nav-header.component';
 
 @Component({
   selector: 'app-station',
@@ -8,7 +9,10 @@ import { StationsService } from '../stations.service';
 export class StationComponent implements OnInit {
   stations: [];
 
-  constructor(private _service: StationsService) {
+  constructor(
+    private _service: StationsService,
+    private _header: NavHeaderComponent
+  ) {
     this.stations = [];
   }
 
@@ -16,7 +20,8 @@ export class StationComponent implements OnInit {
     index: number,
     station: { name: string; solved: boolean }
   ) {
-    this._service.updateStation(index, station);
+    await this._service.updateStation(index, station);
+    await this._header.getPoints();
   }
 
   async ngOnInit() {

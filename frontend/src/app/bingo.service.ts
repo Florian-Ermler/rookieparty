@@ -70,4 +70,65 @@ export class BingoService {
       );
     }
   }
+
+  private allAreTrue(arr: boolean[]) {
+    return arr.every((element) => element === true);
+  }
+
+  async getPoints() {
+    let points = 0;
+    const pointArrayY: boolean[][] = [
+      [false, false, false, false, false],
+      [false, false, false, false, false],
+      [false, false, false, false, false],
+      [false, false, false, false, false],
+      [false, false, false, false, false],
+    ];
+    const pointArrayX: boolean[][] = [
+      [false, false, false, false, false],
+      [false, false, false, false, false],
+      [false, false, false, false, false],
+      [false, false, false, false, false],
+      [false, false, false, false, false],
+    ];
+    const pointArrayYX: boolean[] = [false, false, false, false, false];
+    const pointArrayXY: boolean[] = [false, false, false, false, false];
+
+    const answerArray: string[][] = await this.getUserAnswers();
+
+    for (let y = 0; y < 5; y++) {
+      for (let x = 0; x < 5; x++) {
+        if (answerArray[y][x].trim() != '') {
+          pointArrayY[y][x] = true;
+        }
+        if (answerArray[x][y].trim() != '') {
+          pointArrayX[y][x] = true;
+        }
+        if (y == x) {
+          if (answerArray[y][x].trim() != '') {
+            pointArrayYX[y] = true;
+          }
+        }
+        if (x + y == 4) {
+          if (answerArray[y][x].trim() != '') {
+            pointArrayXY[y] = true;
+          }
+        }
+      }
+      if (this.allAreTrue(pointArrayY[y])) {
+        points += 15;
+      }
+      if (this.allAreTrue(pointArrayX[y])) {
+        points += 15;
+      }
+      if (this.allAreTrue(pointArrayYX)) {
+        points += 30;
+      }
+      if (this.allAreTrue(pointArrayXY)) {
+        points += 30;
+      }
+    }
+
+    return points;
+  }
 }

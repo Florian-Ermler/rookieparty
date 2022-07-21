@@ -42,4 +42,14 @@ export class StationsService {
     );
     console.log(response);
   }
+
+  async getPoints() {
+    let points = 0;
+    const stations: { name: string; solved: boolean }[] =
+      await this.getStations();
+    for (let station of stations) {
+      if (station.solved) points += 30;
+    }
+    return points;
+  }
 }

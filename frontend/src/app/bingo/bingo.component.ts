@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BingoService } from '../bingo.service';
+import { NavHeaderComponent } from '../nav-header/nav-header.component';
 
 @Component({
   selector: 'app-bingo',
@@ -15,7 +16,10 @@ export class BingoComponent implements OnInit {
   public answerdFieldStyle: string;
   public userAnswers: string[][] | undefined;
 
-  constructor(private _service: BingoService) {
+  constructor(
+    private _service: BingoService,
+    private _header: NavHeaderComponent
+  ) {
     this.bingoField = [];
     this.bingoFieldStyle =
       'w-1/5 p-5 text-center border cursor-pointer transition duration-500 hover:bg-orange-500';
@@ -44,6 +48,7 @@ export class BingoComponent implements OnInit {
       );
       this.userAnswers = await this._service.getUserAnswers();
       this.questionAnswer = '';
+      await this._header.getPoints();
     }
   }
 
