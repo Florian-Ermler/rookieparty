@@ -119,15 +119,18 @@ export class BingoService {
         }
       }
       if (this.allAreTrue(pointArrayY[y])) {
-        points += 15;
+        points += 10;
       }
       if (this.allAreTrue(pointArrayX[y])) {
-        points += 15;
+        points += 10;
       }
       if (this.allAreTrue(pointArrayYX)) {
-        points += 30;
+        points += 20;
       }
       if (this.allAreTrue(pointArrayXY)) {
+        points += 20;
+      }
+      if (pointArrayX.every((col) => col.every((element) => element))) {
         points += 30;
       }
     }
