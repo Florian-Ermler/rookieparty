@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 
-import { Store, Select } from '@ngxs/store';
-import { SetUser, UserData, UserState } from './store/app.store';
+import { Store } from '@ngxs/store';
+import { SetUser } from './store/app.store';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +36,8 @@ export class AuthService {
       )
     );
     this._store.dispatch(new SetUser({ id: response.data[0].id, username }));
+    localStorage.setItem('rookie_id', response.data[0].id);
+    localStorage.setItem('rookie_username', username);
   }
 
   async register(username: string) {

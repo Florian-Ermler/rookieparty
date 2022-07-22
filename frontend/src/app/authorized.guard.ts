@@ -25,14 +25,21 @@ export class AuthorizedGuard implements CanActivate, CanActivateChild {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    this.user$.subscribe((u) => {
+    /*     this.user$.subscribe((u) => {
       this.user = u;
     });
     if (this.user.username.trim() != '' && this.user.id.trim() != '') {
       return true;
     } else {
       return false;
+    } */
+    if (
+      localStorage.getItem('rookie_username') &&
+      localStorage.getItem('rookie_id')
+    ) {
+      return true;
     }
+    return false;
   }
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,
