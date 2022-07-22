@@ -44,9 +44,10 @@ services:
     container_name: rookie_frontend
     image: directus/directus:latest
     ports:
-      - 8055:8055
+      - 4200:4200
     networks:
       - rookie_frontend
+      
 networks:
   rookie_directus:
   rookie_frontend:
