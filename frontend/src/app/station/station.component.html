@@ -3,7 +3,6 @@
     <tr>
       <th class="text-center">Name</th>
       <th class="text-center">Status</th>
-      <th class="text-center"></th>
     </tr>
   </thead>
   <tbody class="w-full">
@@ -11,15 +10,8 @@
       *ngFor="let station of stations; let i = index"
       class="border rounded pl-8"
     >
-      <td
-        *ngFor="let prop of station | keyvalue"
-        class="border rounded text-left p-4"
-      >
-        {{ prop.value }}
-      </td>
-      <td class="text-center">
-        <button (click)="updateStation(i, station)">Abschließen</button>
-      </td>
+      <td class="text-center border">{{ station.name }}</td>
+      <td class="text-center border">{{ station.solved }}</td>
     </tr>
   </tbody>
 </table>

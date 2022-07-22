@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
     if (this.username) {
       if (this.username.trim() === '') return;
       if (await this._service.isUsernameUsed(this.username)) {
-        this._service.login(this.username);
+        await this._service.login(this.username);
         this._router.navigate(['games']);
       } else {
         alert('Nutzer ist nicht bekannt');

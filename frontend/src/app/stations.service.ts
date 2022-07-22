@@ -10,12 +10,15 @@ import { environment } from 'src/environments/environment';
 })
 export class StationsService {
   @Select(UserState.getUser) private user$!: Observable<UserData>;
-  private user: UserData = { id: '', username: '' };
+  private user: any = { id: '', username: '' };
 
   constructor(private http: HttpClient) {
-    this.user$.subscribe((u) => {
+    /*     this.user$.subscribe((u) => {
       this.user = u;
-    });
+    }); */
+
+    this.user.id = localStorage.getItem('rookie_id');
+    this.user.username = localStorage.getItem('rookie_username');
   }
 
   async getStations() {
@@ -29,9 +32,9 @@ export class StationsService {
 
   async updateStation(
     index: number,
-    station: { name: string; solved: boolean }
+    station: { id: string; name: string; solved: boolean }
   ) {
-    const stations: { name: string; solved: boolean }[] =
+    const stations: { id: string; name: string; solved: boolean }[] =
       await this.getStations();
     station.solved = true;
     stations[index] = station;
@@ -45,7 +48,7 @@ export class StationsService {
 
   async getPoints() {
     let points = 0;
-    const stations: { name: string; solved: boolean }[] =
+    const stations: { id: string; name: string; solved: boolean }[] =
       await this.getStations();
     for (let station of stations) {
       if (station.solved) points += 30;

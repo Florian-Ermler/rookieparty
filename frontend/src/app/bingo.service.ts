@@ -10,12 +10,15 @@ import { UserData, UserState } from './store/app.store';
 })
 export class BingoService {
   @Select(UserState.getUser) private user$!: Observable<UserData>;
-  private user: UserData = { id: '', username: '' };
+  private user: any = { id: '', username: '' };
 
   constructor(private http: HttpClient) {
-    this.user$.subscribe((u) => {
+    /*     this.user$.subscribe((u) => {
       this.user = u;
-    });
+    }); */
+
+    this.user.id = localStorage.getItem('rookie_id');
+    this.user.username = localStorage.getItem('rookie_username');
   }
 
   async getBingo() {
