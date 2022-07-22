@@ -8,7 +8,6 @@ import { RegisterComponent } from './register/register.component';
 import { NavHeaderComponent } from './nav-header/nav-header.component';
 import { BingoComponent } from './bingo/bingo.component';
 import { StationComponent } from './station/station.component';
-import { QrCodesComponent } from './qr-codes/qr-codes.component';
 
 const routes: Routes = [
   {
@@ -23,10 +22,6 @@ const routes: Routes = [
     path: '',
     redirectTo: 'login',
     pathMatch: 'full',
-  },
-  {
-    path: 'qr-codes/:id',
-    component: QrCodesComponent,
   },
   {
     path: 'games',
