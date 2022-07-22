@@ -15,7 +15,6 @@ import { StationComponent } from './station/station.component';
 import { NavHeaderComponent } from './nav-header/nav-header.component';
 import { RegisterComponent } from './register/register.component';
 import { RouterState } from '@angular/router';
-import { QrCodesComponent } from './qr-codes/qr-codes.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +24,6 @@ import { QrCodesComponent } from './qr-codes/qr-codes.component';
     StationComponent,
     NavHeaderComponent,
     RegisterComponent,
-    QrCodesComponent,
   ],
   imports: [
     BrowserModule,

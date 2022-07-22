@@ -1,7 +1,6 @@
-
 FROM node:latest as build-stage
 WORKDIR /app
-COPY ./frontend .
+COPY frontend .
 RUN npm install
 RUN npm run build --prod
 
