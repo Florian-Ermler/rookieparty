@@ -18,16 +18,10 @@ services:
     ports:
       - 8055:8055
     volumes:
-      # By default, uploads are stored in /directus/uploads
-      # Always make sure your volumes matches the storage root when using
-      # local driver
       - ./backend/uploads:/directus/uploads
-      # Make sure to also mount the volume when using SQLite
-      # - ./database:/directus/database
-      # If you want to load extensions from the host
-      # - ./extensions:/directus/extensions
     networks:
       - rookie_directus
+      - rookie_frontend
     depends_on:
       - rookie_database
     environment:
@@ -45,6 +39,14 @@ services:
       ADMIN_PASSWORD: "d1r3ctu5"
 
       CORS_ENABLED: "true"
-
+  
+  frontend:
+    container_name: rookie_frontend
+    image: directus/directus:latest
+    ports:
+      - 8055:8055
+    networks:
+      - rookie_frontend
 networks:
   rookie_directus:
+  rookie_frontend:
